@@ -1,6 +1,6 @@
 # 📊 HR Analytics: Attrition by Gender and Income Level
 
-This project explores employee attrition based on gender and monthly income, using an HR dataset from IBM.
+This project explores employee attrition based on gender, monthly income and age using an HR dataset from IBM.
 
 🔗 Interactive Tableau Dashboards:  
 [View on Tableau Public](https://public.tableau.com/app/profile/saglara.garyaeva/vizzes)
@@ -9,7 +9,7 @@ This project explores employee attrition based on gender and monthly income, usi
 
 📌 SQL Queries Overview
 
-1. Attrition by Gender
+1. Attrition by Gender 📈📉
 
 SELECT
   gender,
@@ -23,7 +23,7 @@ Goal: Compare attrition rates between male and female employees.
 Insight: Male employees leave slightly more often than female employees. Males also represent a larger portion of the workforce.
 
 
-2. Attrition by Monthly Income Range
+2. Attrition by Monthly Income Range 🔎
 
 SELECT
   CASE
@@ -43,6 +43,34 @@ Goal: Understand how salary levels influence employee attrition.
 Insight: Lower-income employees show the highest attrition rates. The group earning below $3,000/month has the highest turnover.
 
 
+3. Number of Employee by Age 📊
+
+SELECT 
+  age_group,
+  count(*) as total_employees
+FROM 
+  (SELECT 
+     CASE
+       WHEN age < 25 THEN 'less than 25'
+       WHEN age BETWEEN 25 AND 35 THEN 'between 25 and 35'
+       WHEN age BETWEEN 35 AND 45 THEN 'between 35 and 45'
+       WHEN age BETWEEN 45 AND 55 THEN 'between 45 and 55'
+       ELSE '56+'
+     END AS age_group,
+     CASE 
+       WHEN age < 25 THEN '1'
+       WHEN age BETWEEN 25 AND 35 THEN '2'
+       WHEN age BETWEEN 35 AND 45 THEN '3'
+       WHEN age BETWEEN 45 AND 55 THEN '4'
+       ELSE '5'
+     END AS age_order
+   FROM hr_employees) AS sub
+GROUP BY age_order, age_group
+ORDER BY age_order ASC;
+Goal: Analyze workforce distribution across different age groups.
+Insight: Shows the concentration of employees in various age brackets, helping understand the company's demographic composition.
+
+
 
 🛠️ Tools Used
 
@@ -56,7 +84,7 @@ Created in Tableau:
 
 📉 Attrition by Gender (bar chart with percentages)
 💰 Attrition by Income Range (bar chart showing attrition % by income tier)
-📁 Dataset
+📊 Number of Employee by Age (visualization of workforce age groups)
 
 
 Data Source: IBM HR Analytics Employee Attrition & Performance
